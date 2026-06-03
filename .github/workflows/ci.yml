@@ -52,4 +52,4 @@ jobs:
       - run: pip install "bandit[toml]"
       - run: bandit -r . -c pyproject.toml
       - name: gitleaks (full history)
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v3
