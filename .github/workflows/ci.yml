@@ -52,4 +52,11 @@ jobs:
       - run: pip install "bandit[toml]"
       - run: bandit -r . -c pyproject.toml
       - name: gitleaks (full history)
-        uses: gitleaks/gitleaks-action@v2
+        # Direct scan of this repo's whole commit history; deterministic and matches
+        # the local pre-commit/pre-publish gitleaks. (The gitleaks-action builds an
+        # invalid commit range on the first push from the root commit.)
+        run: |
+          VER=8.30.1
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${VER}/gitleaks_${VER}_linux_x64.tar.gz" \
+            | tar -xz -C "$RUNNER_TEMP" gitleaks
+          "$RUNNER_TEMP/gitleaks" detect --source . --redact --no-banner
