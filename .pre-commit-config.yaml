@@ -1,0 +1,32 @@
+# Git-level defence. Catches every commit, including manual ones (the Claude
+# pre-git-guard hook only fires when Claude runs git). Install once per clone:
+#   mise exec -- pip install pre-commit && pre-commit install
+# Run across the whole tree on demand: pre-commit run --all-files
+#
+# Public-safe by design: every hook here is a generic, off-the-shelf check.
+# Nothing names a private path. The private-path leak scan is local-only
+# (see .claude/local/) and never runs here or in CI.
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: detect-private-key
+      - id: check-added-large-files
+        args: ["--maxkb=512"]
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-toml
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.15
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+      - id: ruff-format
