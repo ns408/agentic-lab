@@ -49,6 +49,7 @@ python_version = "3.12"
 strict = true
 warn_unused_ignores = true
 warn_redundant_casts = true
+exclude = ["^\\.venv/", "^build/", "^dist/"]
 # App code is typed strictly; relax for third-party stubs that lack types.
 [[tool.mypy.overrides]]
 module = ["pydantic_ai.*", "smolagents.*"]
