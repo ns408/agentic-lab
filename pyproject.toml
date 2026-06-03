@@ -1,0 +1,59 @@
+[project]
+name = "agentic-lab"
+version = "0.1.0"
+description = "Build artifacts demonstrating agentic AI concepts: workflows vs agents, raw-to-framework, and a platform assistant."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "MIT" }
+dependencies = [
+    "fastapi>=0.115,<1",
+    "uvicorn[standard]>=0.32,<1",
+    "openai>=2.40,<3",
+    "pydantic-ai>=1.105,<2",
+    "pydantic-settings>=2.6,<3",
+    "httpx>=0.27,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8,<9",
+    "ruff>=0.7",
+    "mypy>=1.13",
+    "pre-commit>=3.5",
+    "bandit>=1.7",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["shared"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+# Default rules plus: isort (I), bugbear (B), flake8-bandit (S, security),
+# pyupgrade (UP). S gives per-edit security scanning; full bandit runs in CI.
+select = ["E", "F", "W", "I", "B", "S", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests may use assert (S101) and need no security hardening.
+"**/tests/**" = ["S101"]
+"**/test_*.py" = ["S101"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+# App code is typed strictly; relax for third-party stubs that lack types.
+[[tool.mypy.overrides]]
+module = ["pydantic_ai.*", "smolagents.*"]
+ignore_missing_imports = true
+
+[tool.bandit]
+# Full bandit ruleset runs in CI; exclude the local virtualenv and tests.
+exclude_dirs = [".venv", "tests"]

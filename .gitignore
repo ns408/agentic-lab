@@ -1,0 +1,37 @@
+# --- Secrets and local-only files (never commit) ---
+.env
+*.env
+!.env.example
+.dev/
+TEMP/
+*.pem
+*.key
+*.p12
+id_rsa
+id_rsa.*
+*secret*
+*token*
+*credentials*
+
+# --- Claude Code local overrides (machine-specific, private) ---
+.claude/settings.local.json
+.claude/CLAUDE.local.md
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- OS / editor ---
+.DS_Store
+.idea/
+.vscode/
+*.swp
