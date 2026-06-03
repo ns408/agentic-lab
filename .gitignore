@@ -13,9 +13,12 @@ id_rsa.*
 *token*
 *credentials*
 
-# --- Claude Code local overrides (machine-specific, private) ---
+# --- Claude Code local-only guardrails (machine-specific, private) ---
+# Anything under .claude/local/ names private paths or carries leak-detection
+# rules and must never be published or sent to CI.
 .claude/settings.local.json
 .claude/CLAUDE.local.md
+.claude/local/
 
 # --- Python ---
 __pycache__/
