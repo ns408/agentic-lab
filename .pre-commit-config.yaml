@@ -1,12 +1,26 @@
 # Git-level defence. Catches every commit, including manual ones (the Claude
-# pre-git-guard hook only fires when Claude runs git). Install once per clone:
-#   mise exec -- pip install pre-commit && pre-commit install
+# pre-git-guard hook only fires when Claude runs git).
+#
+# How these run: this machine sets git core.hooksPath to a global hooks dir whose
+# pre-commit hook delegates to `pre-commit run`. So `pre-commit install` is neither
+# needed nor effective here (it writes .git/hooks, which core.hooksPath overrides).
 # Run across the whole tree on demand: pre-commit run --all-files
 #
-# Public-safe by design: every hook here is a generic, off-the-shelf check.
-# Nothing names a private path. The private-path leak scan is local-only
-# (see .claude/local/) and never runs here or in CI.
+# Two layers: content (gitleaks, detect-private-key) scans what a file contains; the
+# local forbid-gitignored hook scans where a file lives, blocking any staged path
+# .gitignore would exclude (e.g. a force-added TEMP/ file) regardless of content.
+# Public-safe: every hook is generic and names no private path. The private-path
+# leak scan is local-only (see .claude/local/) and never runs here or in CI.
 repos:
+  - repo: local
+    hooks:
+      - id: forbid-gitignored
+        name: forbid committing gitignored paths
+        entry: scripts/forbid-gitignored.sh
+        language: script
+        always_run: true
+        pass_filenames: false
+
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.30.1
     hooks:
