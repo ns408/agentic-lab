@@ -67,6 +67,10 @@ keys or commit `.env`.
 - A `PreToolUse` git guard (`.claude/hooks/pre-git-guard.sh`) blocks commits/pushes
   that would stage those paths or contain secrets (via gitleaks). It only fires
   when Claude runs git; manual commits are covered by the global git hooks and CI.
+- A `forbid-gitignored` pre-commit hook (`scripts/forbid-gitignored.sh`) blocks any
+  manual commit that stages a gitignored path (e.g. one force-added with `git add -f`),
+  using `git check-ignore --no-index`. It closes the human-commit gap the Claude-only
+  guard above leaves open.
 - `.pre-commit-config.yaml` drives CI and manual `pre-commit run --all-files`.
 - Some leak checks and operator notes are intentionally local-only and not part of
   this repository.
