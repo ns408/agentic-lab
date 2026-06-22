@@ -24,7 +24,7 @@ the definitions in Anthropic's [Building Effective Agents](https://www.anthropic
 
 ## Status
 
-Honest about what exists today versus what is planned.
+What exists today versus what is planned.
 
 | Area | State |
 |---|---|
