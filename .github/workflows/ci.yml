@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       # Runs the exact same .pre-commit-config.yaml as local: ruff, ruff-format,
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - run: python -m pip install --upgrade pip
@@ -46,7 +46,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0 # full history so gitleaks scans every commit
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - run: pip install "bandit[toml]"
